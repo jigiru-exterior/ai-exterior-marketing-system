@@ -1,30 +1,28 @@
-name: 外構AI自動集客システム
+name: ファイル構造確認
 
 on:
-  schedule:
-    # 毎日 朝8時、昼12時、夕方17時に実行（JST-9時間）
-    - cron: '0 23,3,8 * * 1-6'  # 月-土のみ
-  workflow_dispatch: # 手動実行も可能
+  workflow_dispatch:
 
 jobs:
-  auto-marketing:
+  debug:
     runs-on: ubuntu-latest
     
     steps:
     - name: コードをチェックアウト
       uses: actions/checkout@v3
       
-    - name: Python環境をセットアップ
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.9'
-        
-    - name: 依存関係をインストール
+    - name: ファイル構造確認
       run: |
-        pip install -r requirements.txt
-        
-    - name: 外構AI自動集客システム実行
-      env:
-        OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: python main.py
+        echo "=== ルートディレクトリの内容 ==="
+        ls -la
+        echo ""
+        echo "=== main.py の存在確認 ==="
+        if [ -f "main.py" ]; then
+          echo "✅ main.py 存在します"
+          echo "ファイルサイズ: $(wc -c < main.py) bytes"
+        else
+          echo "❌ main.py が見つかりません"
+        fi
+        echo ""
+        echo "=== Python実行テスト ==="
+        python --version
