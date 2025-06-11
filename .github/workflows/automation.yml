@@ -6,15 +6,15 @@ on:
   workflow_dispatch:
 
 jobs:
-  auto-marketing-with-analytics-v2:  # ← ここを変更
+  auto-marketing-with-analytics-v2:
     runs-on: ubuntu-latest
     
     steps:
     - name: コードをチェックアウト
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4  # v3 → v4 に更新
       
     - name: Python環境をセットアップ
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5  # v4 → v5 に更新
       with:
         python-version: '3.9'
         
@@ -32,7 +32,7 @@ jobs:
       run: python dashboard.py
       
     - name: ダッシュボードファイルをアップロード
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4  # v3 → v4 に更新
       with:
         name: analytics-dashboard
         path: dashboard.html
