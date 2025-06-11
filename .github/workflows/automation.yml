@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  auto-marketing-with-analytics:
+  auto-marketing-with-analytics-v2:  # ← ここを変更
     runs-on: ubuntu-latest
     
     steps:
