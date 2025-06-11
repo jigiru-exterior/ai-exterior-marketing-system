@@ -2,9 +2,8 @@ name: 外構AI自動集客システム + 分析ダッシュボード
 
 on:
   schedule:
-    # 毎日 朝8時、昼12時、夕方17時に実行（JST-9時間）
-    - cron: '0 23,3,8 * * 1-6'  # 月-土のみ
-  workflow_dispatch: # 手動実行も可能
+    - cron: '0 23,3,8 * * 1-6'
+  workflow_dispatch:
 
 jobs:
   auto-marketing-with-analytics:
@@ -22,7 +21,6 @@ jobs:
     - name: 依存関係をインストール
       run: |
         pip install -r requirements.txt
-        pip install pandas numpy matplotlib seaborn
         
     - name: 外構AI自動集客システム実行
       env:
