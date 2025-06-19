@@ -38,3 +38,12 @@ jobs:
         name: exterior-analytics-dashboard
         path: dashboard.html
         retention-days: 30
+# .github/workflows/automation.yml に追加
+  - name: Ver.5.3 マルチTrendAnalysisEngine実行
+    env:
+      GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
+      YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+    run: |
+      echo "🚀 Ver.5.3 システム起動"
+      python main.py
+      echo "✅ Ver.5.3 実行完了"
