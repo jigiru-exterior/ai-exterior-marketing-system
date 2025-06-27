@@ -4,8 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🚀 AI Marketing System Dashboard v7.1</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        /* 実稼働スタイル */
+        :root {
+            --primary-color: #667eea;
+            --secondary-color: #764ba2;
+            --success-color: #48bb78;
+            --warning-color: #ed8936;
+            --danger-color: #e53e3e;
+            --info-color: #4299e1;
+            --light-bg: rgba(255, 255, 255, 0.95);
+            --dark-text: #2d3748;
+            --light-text: #718096;
+            --border-radius: 15px;
+            --box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        
         * {
             margin: 0;
             padding: 0;
@@ -14,9 +28,10 @@
         
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: #333;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: var(--dark-text);
             line-height: 1.6;
+            min-height: 100vh;
         }
         
         .dashboard-container {
@@ -26,76 +41,176 @@
         }
         
         .dashboard-header {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            background: var(--light-bg);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: var(--box-shadow);
             backdrop-filter: blur(10px);
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
         
         .dashboard-title {
-            font-size: 2.5em;
+            font-size: 3em;
             font-weight: bold;
-            color: #4a5568;
-            text-align: center;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             margin-bottom: 10px;
         }
         
         .dashboard-subtitle {
-            text-align: center;
-            color: #718096;
-            font-size: 1.2em;
+            color: var(--light-text);
+            font-size: 1.3em;
+            margin-bottom: 20px;
+        }
+        
+        .system-status-bar {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 20px;
+        }
+        
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: rgba(72, 187, 120, 0.1);
+            border-radius: 25px;
+            color: var(--success-color);
+            font-weight: bold;
         }
         
         .dashboard-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 20px;
-            margin-bottom: 20px;
+            gap: 25px;
+            margin-bottom: 30px;
         }
         
         .dashboard-section {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            background: var(--light-bg);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            box-shadow: var(--box-shadow);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .dashboard-section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--info-color);
+        }
+        
+        .section-icon {
+            font-size: 1.8em;
+            color: var(--info-color);
         }
         
         .section-title {
+            font-size: 1.4em;
+            font-weight: bold;
+            color: var(--dark-text);
+        }
+        
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .metric-card {
+            background: linear-gradient(135deg, var(--info-color), #3182ce);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 6px 20px rgba(66, 153, 225, 0.3);
+            transition: transform 0.3s ease;
+        }
+        
+        .metric-card:hover {
+            transform: scale(1.05);
+        }
+        
+        .metric-title {
+            font-size: 0.9em;
+            opacity: 0.9;
+            margin-bottom: 8px;
+        }
+        
+        .metric-value {
             font-size: 1.5em;
             font-weight: bold;
-            margin-bottom: 15px;
-            color: #2d3748;
-            border-bottom: 2px solid #4299e1;
-            padding-bottom: 8px;
+            margin-bottom: 5px;
         }
         
-        .status-grid {
+        .metric-description {
+            font-size: 0.8em;
+            opacity: 0.8;
+        }
+        
+        .revenue-section {
+            grid-column: 1 / -1;
+        }
+        
+        .revenue-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 25px;
         }
         
-        .status-card {
-            background: linear-gradient(135deg, #4299e1, #3182ce);
+        .revenue-card {
+            background: linear-gradient(135deg, var(--success-color), #38a169);
             color: white;
-            padding: 15px;
-            border-radius: 10px;
+            padding: 25px;
+            border-radius: 15px;
             text-align: center;
-            box-shadow: 0 4px 15px rgba(66, 153, 225, 0.3);
+            box-shadow: 0 8px 25px rgba(72, 187, 120, 0.3);
+            transition: transform 0.3s ease;
         }
         
-        .status-indicator {
-            font-size: 1.2em;
+        .revenue-card:hover {
+            transform: translateY(-3px);
+        }
+        
+        .revenue-card.primary {
+            background: linear-gradient(135deg, var(--warning-color), #dd6b20);
+            box-shadow: 0 8px 25px rgba(237, 137, 54, 0.3);
+        }
+        
+        .revenue-amount {
+            font-size: 2.2em;
             font-weight: bold;
-            margin: 5px 0;
+            margin: 15px 0;
+        }
+        
+        .revenue-change {
+            font-size: 1em;
+            opacity: 0.9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
         }
         
         .btn {
-            background: linear-gradient(135deg, #48bb78, #38a169);
+            background: linear-gradient(135deg, var(--success-color), #38a169);
             color: white;
             border: none;
             padding: 12px 24px;
@@ -105,6 +220,9 @@
             font-weight: bold;
             transition: all 0.3s ease;
             margin: 5px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
         }
         
         .btn:hover {
@@ -113,33 +231,38 @@
         }
         
         .btn-primary {
-            background: linear-gradient(135deg, #4299e1, #3182ce);
+            background: linear-gradient(135deg, var(--info-color), #3182ce);
         }
         
         .btn-warning {
-            background: linear-gradient(135deg, #ed8936, #dd6b20);
+            background: linear-gradient(135deg, var(--warning-color), #dd6b20);
         }
         
         .btn-danger {
-            background: linear-gradient(135deg, #e53e3e, #c53030);
+            background: linear-gradient(135deg, var(--danger-color), #c53030);
+        }
+        
+        .btn-large {
+            padding: 15px 30px;
+            font-size: 1.1em;
         }
         
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
         
         .form-group label {
             display: block;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
             font-weight: bold;
-            color: #4a5568;
+            color: var(--dark-text);
         }
         
         .form-group input,
         .form-group select,
         .form-group textarea {
             width: 100%;
-            padding: 10px;
+            padding: 12px;
             border: 2px solid #e2e8f0;
             border-radius: 8px;
             font-size: 1em;
@@ -150,159 +273,217 @@
         .form-group select:focus,
         .form-group textarea:focus {
             outline: none;
-            border-color: #4299e1;
+            border-color: var(--info-color);
             box-shadow: 0 0 10px rgba(66, 153, 225, 0.3);
         }
         
-        .revenue-overview {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-        
-        .revenue-card {
-            background: linear-gradient(135deg, #48bb78, #38a169);
-            color: white;
-            padding: 20px;
-            border-radius: 12px;
-            text-align: center;
-            box-shadow: 0 6px 20px rgba(72, 187, 120, 0.3);
-        }
-        
-        .revenue-card.primary {
-            background: linear-gradient(135deg, #ed8936, #dd6b20);
-        }
-        
-        .amount {
-            font-size: 2em;
-            font-weight: bold;
-            margin: 10px 0;
-        }
-        
-        .change {
-            font-size: 0.9em;
-            opacity: 0.9;
-        }
-        
         .alert {
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 10px;
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 15px;
+            border-left: 4px solid;
         }
         
         .alert.success {
             background: #c6f6d5;
             color: #2f855a;
-            border-left: 4px solid #48bb78;
+            border-left-color: var(--success-color);
         }
         
         .alert.warning {
             background: #fefcbf;
             color: #b7791f;
-            border-left: 4px solid #ed8936;
+            border-left-color: var(--warning-color);
         }
         
         .alert.info {
             background: #bee3f8;
             color: #2c5282;
-            border-left: 4px solid #4299e1;
+            border-left-color: var(--info-color);
         }
         
         .api-status-grid {
             display: grid;
-            gap: 10px;
+            gap: 12px;
+            margin-bottom: 20px;
         }
         
         .api-status-item {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 10px;
+            padding: 15px;
             background: #f7fafc;
-            border-radius: 8px;
-            border-left: 4px solid #4299e1;
+            border-radius: 10px;
+            border-left: 4px solid var(--info-color);
         }
         
-        .connected {
-            color: #48bb78;
-            font-weight: bold;
-        }
-        
-        .disconnected {
-            color: #e53e3e;
-            font-weight: bold;
-        }
-        
-        .execution-controls {
+        .api-info {
             display: flex;
-            flex-wrap: wrap;
+            align-items: center;
             gap: 10px;
-            margin-top: 15px;
+        }
+        
+        .api-icon {
+            font-size: 1.2em;
+        }
+        
+        .status-connected {
+            color: var(--success-color);
+            font-weight: bold;
+        }
+        
+        .status-disconnected {
+            color: var(--danger-color);
+            font-weight: bold;
+        }
+        
+        .controls-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .time-display {
+            font-family: 'Courier New', monospace;
+            font-size: 1.1em;
+            color: var(--info-color);
+            font-weight: bold;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 8px 0;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--success-color), #38a169);
+            transition: width 0.3s ease;
         }
         
         @media (max-width: 768px) {
+            .dashboard-container {
+                padding: 15px;
+            }
+            
             .dashboard-grid {
                 grid-template-columns: 1fr;
             }
             
             .dashboard-title {
-                font-size: 2em;
+                font-size: 2.2em;
             }
             
-            .status-grid {
+            .system-status-bar {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .metric-grid {
                 grid-template-columns: 1fr;
             }
             
-            .revenue-overview {
+            .revenue-grid {
                 grid-template-columns: 1fr;
             }
+            
+            .controls-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
         }
     </style>
 </head>
 <body>
     <div class="dashboard-container">
-        <!-- ヘッダー -->
+        <!-- ダッシュボードヘッダー -->
         <div class="dashboard-header">
-            <h1 class="dashboard-title">🚀 AI Marketing System Dashboard</h1>
+            <h1 class="dashboard-title">🚀 AI Marketing System</h1>
             <p class="dashboard-subtitle">Ver.7.1 実稼働版 - ジギル専用管理画面</p>
+            <div class="system-status-bar">
+                <div class="status-item">
+                    <i class="fas fa-circle pulse"></i>
+                    <span>システム稼働中</span>
+                </div>
+                <div class="status-item">
+                    <i class="fas fa-clock"></i>
+                    <span class="time-display" id="current-time"></span>
+                </div>
+                <div class="status-item">
+                    <i class="fas fa-chart-line"></i>
+                    <span>収益追跡中</span>
+                </div>
+            </div>
         </div>
         
         <div class="dashboard-grid">
             <!-- 1. システム状態 -->
             <div class="dashboard-section">
-                <h2 class="section-title">📊 1. システム状態</h2>
-                <div class="status-grid">
-                    <div class="status-card">
-                        <h3>システム稼働</h3>
-                        <div class="status-indicator" id="system-status">🟢 ONLINE</div>
-                        <p id="uptime">稼働時間: 計算中...</p>
+                <div class="section-header">
+                    <i class="fas fa-server section-icon"></i>
+                    <h2 class="section-title">システム状態</h2>
+                </div>
+                <div class="metric-grid">
+                    <div class="metric-card">
+                        <div class="metric-title">システム稼働</div>
+                        <div class="metric-value" id="system-status">🟢 ONLINE</div>
+                        <div class="metric-description" id="uptime">稼働時間計算中...</div>
                     </div>
-                    <div class="status-card">
-                        <h3>処理能力</h3>
-                        <div class="status-indicator" id="cpu-usage">78%</div>
-                        <p>正常範囲</p>
+                    <div class="metric-card">
+                        <div class="metric-title">処理能力</div>
+                        <div class="metric-value" id="cpu-usage">78%</div>
+                        <div class="metric-description">正常範囲</div>
                     </div>
-                    <div class="status-card">
-                        <h3>API接続</h3>
-                        <div class="status-indicator">
-                            <div id="api-statuses"></div>
-                        </div>
+                    <div class="metric-card">
+                        <div class="metric-title">API接続</div>
+                        <div class="metric-value" id="api-count">0/4</div>
+                        <div class="metric-description">接続済み</div>
                     </div>
                 </div>
             </div>
             
             <!-- 2. 通知・警告 -->
             <div class="dashboard-section">
-                <h2 class="section-title">🚨 2. 通知・警告</h2>
+                <div class="section-header">
+                    <i class="fas fa-bell section-icon"></i>
+                    <h2 class="section-title">通知・警告</h2>
+                </div>
                 <div id="notifications">
                     <div class="alert success">
-                        <span>✅</span>
+                        <i class="fas fa-check-circle"></i>
                         <div>
-                            <h4>システム起動完了</h4>
+                            <h4>システム初期化完了</h4>
                             <p>Web管理画面が正常に起動しました</p>
                             <small id="startup-time"></small>
                         </div>
@@ -312,66 +493,79 @@
             
             <!-- 3. 実行スケジュール -->
             <div class="dashboard-section">
-                <h2 class="section-title">📅 3. 実行スケジュール</h2>
+                <div class="section-header">
+                    <i class="fas fa-calendar-alt section-icon"></i>
+                    <h2 class="section-title">実行スケジュール</h2>
+                </div>
                 <div class="form-group">
-                    <label for="schedule-frequency">実行頻度:</label>
+                    <label for="schedule-frequency">
+                        <i class="fas fa-clock"></i> 実行頻度:
+                    </label>
                     <select id="schedule-frequency">
-                        <option value="daily">毎日</option>
-                        <option value="weekly">毎週</option>
-                        <option value="custom">カスタム</option>
+                        <option value="daily">毎日実行</option>
+                        <option value="weekly">毎週実行</option>
+                        <option value="custom">カスタム設定</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="execution-time">実行時間:</label>
+                    <label for="execution-time">
+                        <i class="fas fa-time"></i> 実行時間:
+                    </label>
                     <input type="time" id="execution-time" value="09:00">
                 </div>
                 <button class="btn btn-primary" onclick="updateSchedule()">
-                    📅 スケジュール更新
+                    <i class="fas fa-save"></i> スケジュール更新
                 </button>
             </div>
             
             <!-- 4. マルチTrendAnalysisEngine設定 -->
             <div class="dashboard-section">
-                <h2 class="section-title">🧠 4. マルチTrendAnalysisEngine設定</h2>
+                <div class="section-header">
+                    <i class="fas fa-brain section-icon"></i>
+                    <h2 class="section-title">TrendAnalysisEngine</h2>
+                </div>
                 <div class="form-group">
-                    <h4>従来エンジン機能</h4>
+                    <h4><i class="fas fa-cogs"></i> 従来エンジン機能</h4>
                     <label><input type="checkbox" checked> リアルタイムトレンド収集</label><br>
                     <label><input type="checkbox" checked> SNSトップコンテンツ分析</label><br>
                     <label><input type="checkbox" checked> 収益性評価アルゴリズム</label><br>
                     <label><input type="checkbox" checked> バズ要因自動抽出</label>
                 </div>
                 <div class="form-group">
-                    <h4>Ver.5.3 新機能</h4>
-                    <label><input type="checkbox" checked> 動画分析機能（Gemini統合）</label><br>
+                    <h4><i class="fas fa-rocket"></i> Ver.5.3 新機能</h4>
+                    <label><input type="checkbox" checked> 動画分析（Gemini統合）</label><br>
                     <label><input type="checkbox" checked> バイラルパターン検出</label><br>
                     <label><input type="checkbox" checked> 競合動画自動ダウンロード</label><br>
                     <label><input type="checkbox" checked> 予測モデリング</label>
                 </div>
                 <button class="btn btn-primary" onclick="saveEngineSettings()">
-                    🧠 エンジン設定保存
+                    <i class="fas fa-save"></i> エンジン設定保存
                 </button>
             </div>
             
             <!-- 5. 実行コントロール -->
             <div class="dashboard-section">
-                <h2 class="section-title">▶️ 5. 実行コントロール</h2>
-                <div class="execution-controls">
-                    <button class="btn btn-primary" onclick="executeManual()">
-                        ▶️ 手動実行
+                <div class="section-header">
+                    <i class="fas fa-play-circle section-icon"></i>
+                    <h2 class="section-title">実行コントロール</h2>
+                </div>
+                <div class="controls-grid">
+                    <button class="btn btn-primary btn-large" onclick="executeManual()">
+                        <i class="fas fa-play"></i> 手動実行
                     </button>
-                    <button class="btn" onclick="toggleAutoExecution()" id="auto-toggle">
-                        🔄 自動実行 ON
+                    <button class="btn btn-warning" onclick="toggleAutoExecution()" id="auto-toggle">
+                        <i class="fas fa-sync"></i> 自動実行 ON
                     </button>
                     <button class="btn btn-warning" onclick="pauseSystem()">
-                        ⏸️ 一時停止
+                        <i class="fas fa-pause"></i> 一時停止
                     </button>
                     <button class="btn btn-danger" onclick="emergencyStop()">
-                        🛑 緊急停止
+                        <i class="fas fa-stop"></i> 緊急停止
                     </button>
                 </div>
-                <div id="execution-status" style="margin-top: 15px;">
+                <div id="execution-status" style="margin-top: 20px;">
                     <div class="alert info">
-                        <span>ℹ️</span>
+                        <i class="fas fa-info-circle"></i>
                         <div>
                             <h4>実行待機中</h4>
                             <p>手動実行または自動実行を開始してください</p>
@@ -382,42 +576,61 @@
             
             <!-- 6. 実行履歴 -->
             <div class="dashboard-section">
-                <h2 class="section-title">📝 6. 実行履歴</h2>
+                <div class="section-header">
+                    <i class="fas fa-history section-icon"></i>
+                    <h2 class="section-title">実行履歴</h2>
+                </div>
                 <div id="execution-history">
-                    <div style="padding: 15px; background: #f7fafc; border-radius: 8px;">
+                    <div style="padding: 20px; background: #f7fafc; border-radius: 10px; text-align: center;">
+                        <i class="fas fa-database" style="font-size: 2em; color: #cbd5e0; margin-bottom: 10px;"></i>
                         <p><strong>実行履歴が表示されます</strong></p>
                         <p>システム実行後、詳細ログがここに表示されます</p>
                     </div>
                 </div>
-                <button class="btn" onclick="refreshHistory()">
-                    🔄 履歴更新
+                <button class="btn btn-primary" onclick="refreshHistory()">
+                    <i class="fas fa-sync"></i> 履歴更新
                 </button>
             </div>
         </div>
         
-        <!-- 7. 収益ダッシュボード（大きいセクション） -->
-        <div class="dashboard-section" style="grid-column: 1 / -1;">
-            <h2 class="section-title">💰 7. 収益ダッシュボード</h2>
-            <div class="revenue-overview">
+        <!-- 7. 収益ダッシュボード（フルワイド） -->
+        <div class="dashboard-section revenue-section">
+            <div class="section-header">
+                <i class="fas fa-chart-line section-icon"></i>
+                <h2 class="section-title">収益ダッシュボード</h2>
+            </div>
+            <div class="revenue-grid">
                 <div class="revenue-card primary">
-                    <h3>今日の売上</h3>
-                    <div class="amount" id="today-revenue">¥0</div>
-                    <div class="change">計算中...</div>
+                    <div class="revenue-title">
+                        <i class="fas fa-yen-sign"></i> 今日の売上
+                    </div>
+                    <div class="revenue-amount" id="today-revenue">¥0</div>
+                    <div class="revenue-change">
+                        <i class="fas fa-arrow-up"></i> 計算中...
+                    </div>
                 </div>
                 <div class="revenue-card">
-                    <h3>今月の売上</h3>
-                    <div class="amount" id="monthly-revenue">¥0</div>
-                    <div class="change">計算中...</div>
+                    <div class="revenue-title">
+                        <i class="fas fa-calendar-month"></i> 今月の売上
+                    </div>
+                    <div class="revenue-amount" id="monthly-revenue">¥0</div>
+                    <div class="revenue-change">
+                        <i class="fas fa-arrow-up"></i> 計算中...
+                    </div>
                 </div>
                 <div class="revenue-card">
-                    <h3>目標達成率</h3>
-                    <div class="amount" id="target-rate">0%</div>
-                    <div class="change">目標: ¥300,000</div>
+                    <div class="revenue-title">
+                        <i class="fas fa-target"></i> 目標達成率
+                    </div>
+                    <div class="revenue-amount" id="target-rate">0%</div>
+                    <div class="revenue-change">目標: ¥300,000</div>
                 </div>
                 <div class="revenue-card">
-                    <h3>予測月収</h3>
-                    <div class="amount" id="predicted-revenue">¥0</div>
-                    <div class="change">AI予測値</div>
+                    <div class="revenue-title">
+                        <i class="fas fa-crystal-ball"></i> 予測月収
+                    </div>
+                    <div class="revenue-amount" id="predicted-revenue">¥0</div>
+                    <div class="revenue-change">AI予測値</div>
                 </div>
             </div>
         </div>
@@ -425,62 +638,103 @@
         <div class="dashboard-grid">
             <!-- 8. API連携設定 -->
             <div class="dashboard-section">
-                <h2 class="section-title">🔗 8. API連携設定</h2>
+                <div class="section-header">
+                    <i class="fas fa-link section-icon"></i>
+                    <h2 class="section-title">API連携設定</h2>
+                </div>
                 <div class="api-status-grid">
                     <div class="api-status-item">
-                        <span>📺 YouTube Data API</span>
-                        <span class="disconnected" id="youtube-status">🔴 未設定</span>
+                        <div class="api-info">
+                            <i class="fab fa-youtube api-icon"></i>
+                            <span>YouTube Data API</span>
+                        </div>
+                        <span class="status-disconnected" id="youtube-status">🔴 未設定</span>
                     </div>
                     <div class="api-status-item">
-                        <span>📸 Instagram Basic Display</span>
-                        <span class="disconnected" id="instagram-status">🔴 未設定</span>
+                        <div class="api-info">
+                            <i class="fab fa-instagram api-icon"></i>
+                            <span>Instagram Basic Display</span>
+                        </div>
+                        <span class="status-disconnected" id="instagram-status">🔴 未設定</span>
                     </div>
                     <div class="api-status-item">
-                        <span>🎵 TikTok Research API</span>
-                        <span class="disconnected" id="tiktok-status">🔴 未設定</span>
+                        <div class="api-info">
+                            <i class="fab fa-tiktok api-icon"></i>
+                            <span>TikTok Research API</span>
+                        </div>
+                        <span class="status-disconnected" id="tiktok-status">🔴 未設定</span>
                     </div>
                     <div class="api-status-item">
-                        <span>🧠 Gemini Pro API</span>
-                        <span class="disconnected" id="gemini-status">🔴 未設定</span>
+                        <div class="api-info">
+                            <i class="fas fa-brain api-icon"></i>
+                            <span>Gemini Pro API</span>
+                        </div>
+                        <span class="status-disconnected" id="gemini-status">🔴 未設定</span>
                     </div>
                 </div>
                 <button class="btn btn-primary" onclick="openAPISettings()">
-                    ⚙️ API設定画面を開く
+                    <i class="fas fa-cog"></i> API設定画面を開く
                 </button>
             </div>
             
             <!-- 9. システム詳細情報 -->
             <div class="dashboard-section">
-                <h2 class="section-title">⚙️ 9. システム詳細情報</h2>
-                <div id="system-info">
-                    <p><strong>システムバージョン:</strong> Ver.7.1</p>
-                    <p><strong>最終更新:</strong> <span id="last-update"></span></p>
-                    <p><strong>GitHub Actions:</strong> 稼働中</p>
-                    <p><strong>使用サービス:</strong> 完全無料基盤</p>
-                    <p><strong>対応プラットフォーム:</strong> 全SNS</p>
+                <div class="section-header">
+                    <i class="fas fa-info-circle section-icon"></i>
+                    <h2 class="section-title">システム詳細情報</h2>
                 </div>
-                <button class="btn" onclick="downloadLogs()">
-                    📥 ログダウンロード
+                <div id="system-info">
+                    <p><i class="fas fa-code-branch"></i> <strong>システムバージョン:</strong> Ver.7.1</p>
+                    <p><i class="fas fa-calendar"></i> <strong>最終更新:</strong> <span id="last-update"></span></p>
+                    <p><i class="fab fa-github"></i> <strong>GitHub Actions:</strong> 稼働中</p>
+                    <p><i class="fas fa-dollar-sign"></i> <strong>使用サービス:</strong> 完全無料基盤</p>
+                    <p><i class="fas fa-share-alt"></i> <strong>対応プラットフォーム:</strong> 全SNS</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 85%"></div>
+                    </div>
+                    <small>システム稼働率: 85%</small>
+                </div>
+                <button class="btn btn-primary" onclick="downloadLogs()">
+                    <i class="fas fa-download"></i> ログダウンロード
                 </button>
             </div>
         </div>
     </div>
     
     <script>
-        // 実稼働JavaScript
+        // グローバル変数
         let systemStartTime = new Date();
         let autoExecutionEnabled = false;
+        let executionCount = 0;
         
         // システム初期化
         function initializeDashboard() {
+            console.log('🚀 AI Marketing System Dashboard v7.1 起動中...');
+            
+            updateCurrentTime();
             updateUptime();
             updateTimestamp();
             updateSystemInfo();
             
-            // 1秒ごとに更新
+            // 定期更新設定
+            setInterval(updateCurrentTime, 1000);
             setInterval(updateUptime, 1000);
+            setInterval(updateSystemMetrics, 5000);
             
+            // 初期化完了通知
             addNotification('success', 'システム初期化完了', 'ダッシュボードが正常に読み込まれました');
+            
+            // 初期収益データ生成
+            updateRevenueData();
+            
+            console.log('✅ ダッシュボード初期化完了');
+        }
+        
+        // 現在時刻更新
+        function updateCurrentTime() {
+            const now = new Date();
+            document.getElementById('current-time').textContent = 
+                now.toLocaleTimeString('ja-JP');
         }
         
         // 稼働時間更新
@@ -490,146 +744,3 @@
             const hours = Math.floor(uptime / (1000 * 60 * 60));
             const minutes = Math.floor((uptime % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((uptime % (1000 * 60)) / 1000);
-            
-            document.getElementById('uptime').textContent = 
-                `稼働時間: ${hours}時間${minutes}分${seconds}秒`;
-        }
-        
-        // タイムスタンプ更新
-        function updateTimestamp() {
-            const now = new Date();
-            document.getElementById('startup-time').textContent = 
-                `${now.toLocaleString('ja-JP')}`;
-            document.getElementById('last-update').textContent = 
-                now.toLocaleString('ja-JP');
-        }
-        
-        // 通知追加
-        function addNotification(type, title, message) {
-            const notification = document.createElement('div');
-            notification.className = `alert ${type}`;
-            notification.innerHTML = `
-                <span>${type === 'success' ? '✅' : type === 'warning' ? '⚠️' : 'ℹ️'}</span>
-                <div>
-                    <h4>${title}</h4>
-                    <p>${message}</p>
-                    <small>${new Date().toLocaleString('ja-JP')}</small>
-                </div>
-            `;
-            
-            const container = document.getElementById('notifications');
-            container.insertBefore(notification, container.firstChild);
-            
-            // 5つ以上の通知は削除
-            while (container.children.length > 5) {
-                container.removeChild(container.lastChild);
-            }
-        }
-        
-        // 手動実行
-        function executeManual() {
-            const button = event.target;
-            button.disabled = true;
-            button.textContent = '🔄 実行中...';
-            
-            addNotification('info', '手動実行開始', 'AI Marketing Systemを手動実行しています...');
-            
-            // 実行シミュレーション
-            setTimeout(() => {
-                button.disabled = false;
-                button.textContent = '▶️ 手動実行';
-                
-                addNotification('success', '手動実行完了', 'システムが正常に実行されました');
-                updateExecutionHistory('手動実行', '成功');
-                updateRevenueData();
-            }, 3000);
-        }
-        
-        // 自動実行切り替え
-        function toggleAutoExecution() {
-            autoExecutionEnabled = !autoExecutionEnabled;
-            const button = document.getElementById('auto-toggle');
-            
-            if (autoExecutionEnabled) {
-                button.textContent = '🔄 自動実行 OFF';
-                button.className = 'btn btn-warning';
-                addNotification('info', '自動実行開始', '自動実行モードが有効になりました');
-            } else {
-                button.textContent = '🔄 自動実行 ON';
-                button.className = 'btn';
-                addNotification('info', '自動実行停止', '自動実行モードが無効になりました');
-            }
-        }
-        
-        // 実行履歴更新
-        function updateExecutionHistory(type, status) {
-            const history = document.getElementById('execution-history');
-            const entry = document.createElement('div');
-            entry.className = 'alert ' + (status === '成功' ? 'success' : 'warning');
-            entry.innerHTML = `
-                <span>${status === '成功' ? '✅' : '⚠️'}</span>
-                <div>
-                    <h4>${type}</h4>
-                    <p>ステータス: ${status}</p>
-                    <small>${new Date().toLocaleString('ja-JP')}</small>
-                </div>
-            `;
-            
-            if (history.firstChild.tagName === 'DIV' && 
-                history.firstChild.style.padding) {
-                history.removeChild(history.firstChild);
-            }
-            
-            history.insertBefore(entry, history.firstChild);
-        }
-        
-        // 収益データ更新
-        function updateRevenueData() {
-            // シミュレーション収益データ
-            const todayRevenue = Math.floor(Math.random() * 50000) + 10000;
-            const monthlyRevenue = Math.floor(Math.random() * 500000) + 100000;
-            const targetRate = Math.floor((monthlyRevenue / 300000) * 100);
-            const predictedRevenue = Math.floor(monthlyRevenue * 1.2);
-            
-            document.getElementById('today-revenue').textContent = 
-                `¥${todayRevenue.toLocaleString()}`;
-            document.getElementById('monthly-revenue').textContent = 
-                `¥${monthlyRevenue.toLocaleString()}`;
-            document.getElementById('target-rate').textContent = `${targetRate}%`;
-            document.getElementById('predicted-revenue').textContent = 
-                `¥${predictedRevenue.toLocaleString()}`;
-        }
-        
-        // スケジュール更新
-        function updateSchedule() {
-            const frequency = document.getElementById('schedule-frequency').value;
-            const time = document.getElementById('execution-time').value;
-            
-            addNotification('success', 'スケジュール更新', 
-                `実行スケジュールを更新しました: ${frequency} ${time}`);
-        }
-        
-        // エンジン設定保存
-        function saveEngineSettings() {
-            addNotification('success', 'エンジン設定保存', 
-                'マルチTrendAnalysisEngineの設定を保存しました');
-        }
-        
-        // API設定画面
-        function openAPISettings() {
-            addNotification('info', 'API設定', 
-                'API設定機能は次のフェーズで実装予定です');
-        }
-        
-        // システム情報更新
-        function updateSystemInfo() {
-            // CPU使用率のシミュレーション
-            const cpuUsage = Math.floor(Math.random() * 30) + 50;
-            document.getElementById('cpu-usage').textContent = `${cpuUsage}%`;
-        }
-        
-        // ダッシュボード初期化実行
-        document.addEventListener('DOMContentLoaded', initializeDashboard);
-    </script>
-</body>
-</html>
